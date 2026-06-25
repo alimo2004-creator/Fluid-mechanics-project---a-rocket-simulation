@@ -17,7 +17,8 @@
 7. [Key Results & Validation](#-key-results--validation)
 8. [Dependencies & Software Versions](#-dependencies--software-versions)
 9. [Authors & Acknowledgements](#-authors--acknowledgements)
-10. [link for the drive](https://drive.google.com/drive/folders/1NqNussZyOPxgNKuYvnB-lACNyOmDsQzf?usp=drive_link)
+10. [Link for the Drive](https://drive.google.com/drive/folders/1NqNussZyOPxgNKuYvnB-lACNyOmDsQzf?usp=drive_link)
+
 ---
 
 ## 🔭 Project Overview
@@ -40,6 +41,8 @@ This project presents a complete multi-tool engineering analysis of a **Delta IV
 | Stage 2 Engine (RL10B-2) | $P_0$ = 4.4 MPa, $T_0$ = 3300 K, Thrust = 110 kN |
 | Target Orbit | 200 km Polar LEO |
 | Prototype Scale Factor ($\lambda$) | 0.016 (Full scale: 62.5 m → Model: 1.0 m) |
+
+![Delta IV 3D Model](images/3dmodel)
 
 ---
 
@@ -79,8 +82,9 @@ Delta_IV_Fluid_Project/
 │       ├── velocity_vs_time.fig
 │       └── mass_vs_time.fig
 │
+├── images/                               # All visual assets for this README
 ├── Report/
-│   └── FINAL_REPORT_TEAM_13.pdf          # Comprehensive project documentation
+│   └── FINAL_REPORT_TEAM_13.pdf
 │
 └── README.md
 ```
@@ -100,6 +104,8 @@ To replace a constant $C_d$, an array of **19 control points** spanning Mach 0 t
 - **Implementation:** A cubic spline interpolation (`pchip`) ensures a monotone shape during the transonic peak region, preventing oscillatory overshoots.
 - **Result:** Accurately models the wave drag spike at Mach 1.0 and the transonic peak at Mach 1.1, asymptoting to Newtonian flow in the hypersonic regime.
 
+![Mach-Dependent Drag Coefficient Curve](images/machcont)
+
 ### 2. Trajectory Optimization Loop
 
 The code utilizes a **nested bisection optimization algorithm** to find the absolute minimum propellant mass.
@@ -107,6 +113,8 @@ The code utilizes a **nested bisection optimization algorithm** to find the abso
 - **Physics Engine:** Integrates Newton's second law with a continuous mass flow 4th-Order Runge-Kutta (RK4) solver.
 - **Atmospheric Model:** Implements an exponential density decay model with a scale height of 8500 m and a variable gravity function $g(h)$.
 - **Convergence:** The solver iterates through fuel loads with a 0.1-second time step. It successfully converged on **33,210.695 kg** of propellant per stage, achieving the 200 km apogee with a margin of error of just $\pm 0.3284$ meters.
+
+![MATLAB Bisection Iterations Convergence](images/matlabiterations)
 
 ### 3. Telemetry Output & Dashboards
 
@@ -117,6 +125,20 @@ The script outputs a comprehensive CSV file logging iterations at each 0.1 s ste
 - Vehicle Mass Depletion (MECO 1 & MECO 2 markers)
 - Dynamic Pressure ($q$) and Max-Q detection
 
+![Full Telemetry Dashboard — 9 Panel Output](images/finaloutput)
+
+![Altitude vs Time Profile](images/altvsdown)
+
+![Two-Stage Mass Depletion](images/twostages)
+
+![Initial Trajectory Data](images/initialdata)
+
+![CSV Final Export](images/csvfinal)
+
+![CSV Data Table](images/csvdata)
+
+![Dot Graph](images/dotgraph)
+
 ---
 
 ## 🔩 SolidWorks — 3D CAD Modelling & Flow Add-In
@@ -124,6 +146,8 @@ The script outputs a comprehensive CSV file logging iterations at each 0.1 s ste
 ### Overview
 
 SolidWorks was utilized for the **geometric modelling of the 61-meter Delta IV vehicle** and external aerodynamics testing using the Flow Simulation add-in.
+
+![Delta IV Full Assembly — SolidWorks CAD](images/3dmodel)
 
 ### SolidWorks Flow Simulation Add-In
 
@@ -139,6 +163,10 @@ To ground the MATLAB optimization in reality, the CAD model was subjected to sup
 
 At a velocity of **680.539 m/s**, the simulation calculated a total aerodynamic drag force of **17,357,360.526 N**. This mapped to a $C_d$ of **0.363**, verifying the theoretical drag calculations used in the MATLAB trajectory arrays.
 
+![SolidWorks External Flow — Rocket Flow Trajectories](images/rocketflow)
+
+![SolidWorks Mach Contour](images/Mdot)
+
 ---
 
 ## 🌊 ANSYS Fluent — Computational Fluid Dynamics (CFD)
@@ -150,7 +178,9 @@ ANSYS Fluent provides **high-fidelity CFD for the RS-68A engine nozzle**. The an
 ### Geometry & Mesh
 
 - **Mesh Type:** 2D Axisymmetric structured mesh generated via ANSYS Meshing
-- **Refinement Strategy:** Face meshing and edge sizing were strictly applied to the throat region to correctly capture the choked flow phenomenon and ensure accurate velocity choking
+- **Refinement Strategy:** Face meshing and edge sizing were strictly applied to the throat region to correctly capture the choked flow phenomenon and ensure accurate velocity choking.
+
+![RS-68A Nozzle Mesh — 2D Axisymmetric](images/nozzlemeshing)
 
 ### Boundary Conditions & Solver Setup
 
@@ -165,6 +195,30 @@ ANSYS Fluent provides **high-fidelity CFD for the RS-68A engine nozzle**. The an
 - **Velocity & Mach Contours:** The fluid smoothly accelerated through the throat, reaching an exhaust velocity exceeding **3716 m/s**.
 - **Shock Structures:** The CFD successfully visualized the formation of **oblique shocks** outside the nozzle at sea-level atmospheric pressure, proving the nozzle design operates safely without dangerous internal flow separation.
 - **Thermodynamics:** Temperature contours mapped the drop from **3600 K** in the chamber down to **240 K** in the expanded plume.
+
+![Nozzle Mach Number Distribution](images/nozzlemach)
+
+![Nozzle Velocity Contour](images/nozzlevelo)
+
+![Nozzle Temperature Contour](images/nozzletemp)
+
+![Nozzle Pressure Contour](images/pressurecont)
+
+![Nozzle Sonic Line](images/sonicsont)
+
+![Turbulence Contour](images/turbcont)
+
+![Stagnation Temperature Contour](images/stagtemp)
+
+![Stagnation Pressure Contour](images/stagoressure)
+
+![Engine Nozzle Overview](images/engine)
+
+![Results Graphs Summary](images/resultsgraphs)
+
+![Rocket Results Overview](images/rocketresults)
+
+![Rocket Results (Extended)](images/rocketresults2)
 
 ---
 
@@ -187,10 +241,21 @@ Two distinct propulsion methodologies were analyzed for the scale model:
 
 ### Simulink Model Architecture
 
-The Simulink environment mapped the discrete trajectory ODEs into a **visual block diagram**:
+The Simulink environment mapped the discrete trajectory ODEs into a visual block diagram. Subsystems integrated thrust generation, variable gravity, and aerodynamic drag. Outputs logged include downrange distance (30° insertion angle trajectory), altitude, velocity, and mass.
 
-- Subsystems integrated thrust generation, variable gravity, and aerodynamic drag
-- Outputs logged: downrange distance (30° insertion angle trajectory), altitude, velocity, and mass
+![Simulink Canvas — Full Scale Reference Model](images/simulinkcanva1)
+
+![Simulink Canvas — Prototype Model](images/simulinkcanva2)
+
+### Simulation Results
+
+![Prototype A — Simulation Graphs](images/simulationgraphsprototypeA)
+
+![Prototype A — Trajectory Simulation](images/simulationprototypeA)
+
+![Prototype B — Trajectory Simulation](images/simulationprototypeB)
+
+![Case B Graph — Altitude & Velocity](images/caseBgraph)
 
 ### Validation
 
@@ -208,6 +273,8 @@ The Simulink plots demonstrated that while Mach similarity is automatically sati
 | RS-68A Exit Velocity | 3945.7 m/s | ~3716.0 m/s | 3945.71 m/s |
 | RS-68A Exit Mach | 5.97 | 5.97 | — |
 | Max-Q (Dynamic Pressure) | 130.24 kPa @ 24.30 s | — | — |
+
+![My Images — Results Collection](images/myimages)
 
 ---
 
